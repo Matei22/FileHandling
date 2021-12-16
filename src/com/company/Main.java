@@ -4,16 +4,53 @@ import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
+import java.util.Scanner;
+
 import static java.nio.file.Files.readAllLines;
+import static java.nio.file.Files.setPosixFilePermissions;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        readingFromAFile("com.company");
         writeInFile("com.company", "file2.txt");
         copyFile("file2.txt", "com.company");
-        appendToAFile("mainFile", "appendedFile", "mergedFile");
+        message();
+        Scanner input = new Scanner(System.in);
+        System.out.println(input.hasNext());
+        String caseYouChoose = input.next();
+        while (!Objects.equals(caseYouChoose, "q")) {
+            switch (caseYouChoose) {
+                case "r" -> {
+                    System.out.println("You chose to read the file: ");
+                    readingFromAFile("com.company");
+                    input.nextLine();
+                    message();
+                    caseYouChoose = input.next();
+                }
+                case "w" -> {
 
+
+                }
+                case "a" -> {
+                    System.out.println("You chose to append a file to another file: ");
+                    appendToAFile("mainFile", "appendedFile", "mergedFile");
+                    message();
+                    caseYouChoose = input.next();
+                }
+                default -> {
+                    System.out.println("Please choose one action from: \"r\" or \"w\" or \"a\"");
+                    caseYouChoose = input.next();
+                }
+            }
+        }
+    }
+
+    public static void message(){
+        System.out.println("Please choose from: ");
+        System.out.println("1) \"r\" for reading a file");
+        System.out.println("2) \"w\" for writing in a file:");
+        System.out.println("3) \"a\" for appending a file to another file");
     }
 
     public static void appendToAFile(String mainFilePath, String pathOfTheAppendedFile, String MergedFilePath) throws IOException {
@@ -53,15 +90,22 @@ public class Main {
             while((line = brw.readLine()) != null){
                 pr.println(line);
             }
+            System.out.println("You are in try catch");
             line = bri.readLine();
             pr.println(line);
+
         }
         finally {
-            pr.close();
-            brw.close();
-            fr.close();
-            bri.close();
-            isr.close();
+            try {
+                pr.close();
+                brw.close();
+                fr.close();
+                bri.close();
+                isr.close();
+            }catch (Exception e){
+
+            }
+
         }
     }
 
@@ -80,6 +124,7 @@ public class Main {
             pr.close();
             br.close();
             fr.close();
+
         }
     }
 
