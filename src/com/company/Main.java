@@ -4,7 +4,6 @@ import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
 import static java.nio.file.Files.readAllLines;
 
@@ -12,36 +11,32 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         message();
-        InputStreamReader isr = new InputStreamReader(System.in);
-        BufferedReader input = new BufferedReader(isr);
-        String caseYouChoose = input.readLine();
-        while (!Objects.equals(caseYouChoose, "q")) {
-
+        Scanner input = new Scanner(System.in);
+        String caseYouChoose = input.nextLine();
+        while(caseYouChoose != "q") {
             switch (caseYouChoose) {
                 case "r" -> {
                     System.out.println("You chose to read the file: ");
-                    readingFromAFile("com.company");
                     message();
-                    caseYouChoose = input.readLine();
-                    System.out.println(input.readLine());
+                    readingFromAFile("com.company");
+                    caseYouChoose = input.nextLine();
                 }
                 case "w" -> {
-                    System.out.println(input.readLine());
+                    message();
                     writeInFile("com.company", "file2.txt");
-                    System.out.println(input.readLine());
                     copyFile("file2.txt", "com.company");
-                    System.out.println(input.readLine());
-                    caseYouChoose = input.readLine();
+                    caseYouChoose = input.nextLine();
+
                 }
                 case "a" -> {
+                    message();
                     System.out.println("You chose to append a file to another file: ");
                     appendToAFile("mainFile", "appendedFile", "mergedFile");
-                    message();
-                    caseYouChoose = input.readLine();
+                    caseYouChoose = input.nextLine();
                 }
                 default -> {
                     System.out.println("Please choose one action from: \"r\" or \"w\" or \"a\"");
-                    caseYouChoose = input.readLine();
+                    caseYouChoose = input.nextLine();
                 }
             }
         }
@@ -70,24 +65,17 @@ public class Main {
                 prFinal.println(line);
             }
         }
-        finally {
-            prFinal.close();
-            br1.close();
-            fr1.close();
-            br2.close();
-            fr2.close();
-        }
     }
 
     public static void writeInFile(String pathOfFile, String newPath) throws IOException{
         System.out.println("entered in writing file");
-        InputStreamReader isr = new InputStreamReader(System.in);
-        BufferedReader bri = new BufferedReader(isr);
+
+        BufferedReader bri = new BufferedReader(new InputStreamReader(System.in));
         FileReader fr = new FileReader(pathOfFile);
         BufferedReader brw = new BufferedReader(fr);
         PrintWriter pr = new PrintWriter(newPath);
 
-        try(isr; bri; fr; brw; pr) {
+        try(bri; fr; brw; pr) {
             String line;
             while((line = brw.readLine()) != null){
                 pr.println(line);
@@ -96,13 +84,6 @@ public class Main {
             line = bri.readLine();
             pr.println(line);
 
-        }
-        finally {
-            pr.close();
-            brw.close();
-            fr.close();
-            bri.close();
-            isr.close();
         }
     }
 
@@ -113,13 +94,9 @@ public class Main {
 
         try(fr; br; pr) {
             String line;
-            while((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 pr.println(line);
             }
-        }
-        finally {
-
-
         }
     }
 
